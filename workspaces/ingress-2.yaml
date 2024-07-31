@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: handh-ingress-web3
+  namespace: handh
+#  ingressClassName: nginx
+  annotations:
+#    kubernetes.io/ingress.class: nginx
+#    nginx.ingress.kubernetes.io/is-default-class: true
+#    ingress.kubernetes.io/ssl-redirect: true
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - secretName: httpstls2
+  rules:
+  - host: handh.datacentric.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: web3
+            port: 
+              number: 80

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: "2022-05-03T09:52:18Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app.kubernetes.io/component: zookeeper
+    app.kubernetes.io/instance: kafka
+    app.kubernetes.io/name: zookeeper
+  name: data-kafka-zookeeper-0
+  namespace: kafka
+  resourceVersion: "531518296"
+  selfLink: /api/v1/namespaces/kafka/persistentvolumeclaims/data-kafka-zookeeper-0
+  uid: e55d3e91-445d-4056-b9cd-f138e1f4331f
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  volumeMode: Filesystem
+  storageClassName: nfs-storageclass
+status:
+  phase: Pending

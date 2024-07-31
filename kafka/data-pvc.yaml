@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: "2022-05-03T09:52:18Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app.kubernetes.io/component: kafka
+    app.kubernetes.io/instance: kafka
+    app.kubernetes.io/name: kafka
+  name: data-kafka-0
+  namespace: kafka
+  resourceVersion: "531518297"
+  selfLink: /api/v1/namespaces/kafka/persistentvolumeclaims/data-kafka-0
+  uid: 5159c85c-49fc-494e-96a5-4488bd3b6c71
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: nfs-storageclass
+  volumeMode: Filesystem
+status:
+  phase: Pending

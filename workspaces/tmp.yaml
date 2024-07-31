@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    field.cattle.io/publicEndpoints: '[{"addresses":["172.17.250.233"],"port":32509,"protocol":"TCP","serviceName":"default:ingress-nginx-controller-nodeport","allNodes":true},{"addresses":["172.17.250.233"],"port":31495,"protocol":"TCP","serviceName":"default:ingress-nginx-controller-nodeport","allNodes":true},{"addresses":["172.17.250.233"],"port":30519,"protocol":"TCP","serviceName":"default:ingress-nginx-controller-nodeport","allNodes":true}]'
+  creationTimestamp: "2021-08-10T05:31:07Z"
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/version: 0.48.1
+    helm.sh/chart: ingress-nginx-3.35.0
+  name: ingress-nginx-controller-nodeport
+  namespace: default
+  resourceVersion: "6332624"
+  selfLink: /api/v1/namespaces/default/services/ingress-nginx-controller-nodeport
+  uid: a3eecb5a-e1a6-40f9-95ec-3da817524124
+spec:
+  clusterIP: 10.106.230.89
+  clusterIPs:
+  - 10.106.230.89
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: port-1
+    nodePort: 32509
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: port-2
+    nodePort: 31495
+    port: 443
+    protocol: TCP
+    targetPort: 443
+  - name: port-3
+    nodePort: 30519
+    port: 8443
+    protocol: TCP
+    targetPort: 8443
+  selector:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+  sessionAffinity: None
+  type: NodePort
+  externalIPs:
+  - 172.17.250.230
+  - 172.17.250.231
+  - 172.17.250.232
+  - 172.17.250.233
+  - 172.17.250.234 
+  - 172.17.250.235
+  - 172.17.250.236
+  - 172.17.250.237
+  - 172.17.250.238
+status:
+  loadBalancer: {}

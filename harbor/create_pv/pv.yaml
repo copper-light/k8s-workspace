@@ -1,0 +1,90 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-pv-chartmuseum
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: harbor-chartmuseum
+  nfs:
+    server: kube-nfs
+    path: "/home/nfs/harbor/chartmuseum"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-pv-jobservice
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: harbor-jobservice
+  nfs:
+    server: kube-nfs
+    path: "/home/nfs/harbor/jobservice"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-pv-trivy
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: harbor-trivy
+  nfs:
+    server: kube-nfs
+    path: "/home/nfs/harbor/trivy"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-pv-database
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: harbor-database
+  nfs:
+    server: kube-nfs
+    path: "/home/nfs/harbor/database"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-pv-redis
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: harbor-redis
+  nfs:
+    server: kube-nfs
+    path: "/home/nfs/harbor/redis"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-pv-registry
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: harbor-registry
+  nfs:
+    server: kube-nfs
+    path: "/home/nfs/harbor/registry"

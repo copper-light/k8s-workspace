@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim # 영구 스토리지 생성을 요청하는 객체
+metadata:
+  name: test-pvc # PVC 이름
+spec:
+  storageClassName: nfs-storageclass # NFS 타입으로 생성
+  accessModes:
+    - ReadWriteMany # 스토리지 액세스 모드 (ReadWriteMany, ReadWriteOnce, ReadOnlyMany)
+  resources:
+    requests:
+      storage: 10Gi # 용량은 지정되어있지만 실제로 10G 이상 사용 가능

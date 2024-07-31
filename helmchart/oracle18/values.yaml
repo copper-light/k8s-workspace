@@ -1,0 +1,8 @@
+# Default values for hello.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+database:
+  sysPassword : "-------" # 오라클 컨테이너 내부 패스워드 처리 로직에서 특수문자 포함되면 에러 발생함. 특수문자 없이 패스워드 생성하고 이후에 필요에 따라 변경하도록함
+
+service:
+  loadBalancerIP: 172.17.250.117

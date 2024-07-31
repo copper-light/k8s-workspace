@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{"meta.helm.sh/release-name":"gitlab","meta.helm.sh/release-namespace":"gitlab","pv.kubernetes.io/bind-completed":"yes","pv.kubernetes.io/bound-by-controller":"yes"},"creationTimestamp":"2022-08-12T01:15:16Z","finalizers":["kubernetes.io/pvc-protection"],"labels":{"app":"prometheus","app.kubernetes.io/managed-by":"Helm","chart":"prometheus-11.16.9","component":"server","heritage":"Helm","release":"gitlab"},"name":"gitlab-prometheus-server","namespace":"gitlab","resourceVersion":"5727302","uid":"2f1091df-ed7a-4be1-b37d-e701fd052df7"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"8Gi"}},"selector":{"matchLabels":{"type":"prometheus"}},"volumeMode":"Filesystem"},"status":{"accessModes":["ReadWriteOnce"],"capacity":{"storage":"100Gi"},"phase":"Bound"}}
+    meta.helm.sh/release-name: gitlab
+    meta.helm.sh/release-namespace: gitlab
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: "2022-08-12T03:58:17Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app: prometheus
+    app.kubernetes.io/managed-by: Helm
+    chart: prometheus-11.16.9
+    component: server
+    heritage: Helm
+    release: gitlab
+  name: gitlab-prometheus-server
+  namespace: gitlab
+  resourceVersion: "5767642"
+  uid: 41667187-a1d4-4947-b933-a519b3893f63
+spec:
+  storageClassName: ""
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  selector:
+    matchLabels:
+      type: prometheus
+  volumeMode: Filesystem
+status:
+  phase: Lost

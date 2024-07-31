@@ -1,0 +1,145 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: eureka # 배포 이름
+  labels:
+    app: eureka # 배포 이름
+spec:
+  serviceName: eureka
+  replicas: 3
+  selector:
+    matchLabels:
+      app: eureka # 배포 이름
+  template:
+    metadata:
+      labels:
+        app: eureka # 배포 이름
+    spec:
+      containers:
+      - name: eureka-peer  # 컨테이너 이름
+        image: "openjdk:18-jdk-alpine3.15" # 이미지명 
+        imagePullPolicy: Always
+        command: ["java"]
+        args: ["-jar", "-Dspring.profiles.active=k8s","/data/Eureka-0.0.1-SNAPSHOT.jar"]
+        ports: # 컨테이너 내부에서 사용하는 포트 명시
+        - name: web
+          containerPort: 9000
+          protocol: TCP
+        - name: ssh
+          containerPort: 22
+          protocol: TCP
+        volumeMounts: # 영구 저장할 볼륨 (디렉토리) 설정
+        - name: data-volume # 위에서 명시한 볼륨명 지정
+          mountPath: /data # 서비스에서 필요한 경로 지정
+  volumeClaimTemplates: 
+  - metadata:
+      name: data-volume 
+    spec: 
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "nfs"
+      resources: 
+        requests: 
+          storage: 10Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka # 서비스 이름
+spec:
+  selector:
+    app: eureka # 연결할 Deployment의 이름
+  clusterIP: None # 매우 중요! stateless 서비스로 생성
+  ports:
+  - name: peer
+    port: 9000
+
+# --- 
+# apiVersion: v1
+# kind: PersistentVolumeClaim # 영구 스토리지 생성을 요청하는 객체
+# metadata:
+#   name: eureka-pvc # PVC 이름
+# spec:
+#   storageClassName: nfs # ReclaimPolicy : delete 로 설정되어 있으므로 pvc 삭제시 물리스토리지의 데이터도 삭제됨
+#   accessModes:
+#     - ReadWriteOnce # 스토리지 액세스 모드
+#   resources:
+#     requests:
+#       storage: 10Gi # 용량은 지정되어있지만 실제로 10G 이상 사용 가능
+
+
+
+  #externalIPs: # 필요한 경우 아이피 지정 가능 (단, 로드밸런서의 아이피 설정 범위에 한해서)
+  #  - 172.17.250.120
+
+---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: whaleshark-mes-webservice # 배포 이름
+#   labels:
+#     app: whaleshark-mes-webservice # 배포 이름
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: whaleshark-mes-webservice # 배포 이름
+#   template:
+#     metadata:
+#       labels:
+#         app: whaleshark-mes-webservice # 배포 이름
+#     spec:
+#       volumes:
+#         - name: log-volume # 볼륨명
+#           persistentVolumeClaim:
+#             claimName: whaleshark-mes-webservice-pvc
+#       containers:
+#         - name: whaleshark-mes-webservice  # 컨테이너 이름
+#           image: "harbor.dev.dc/whaleshark/whaleshark-mes-webservice:latest" # 이미지명 
+#           imagePullPolicy: Always
+#           env:
+#             # Altibase에서는 daemon, isql, shell 모드 중 실행 모드를 선택할 수 있음.
+#             # 쿠버네티스 특성상 isql 또는 shell 처럼 사용자 입력을 받는 대화식 서비스는 데몬 서비스로 인식하지 않기 때문에
+#             # 반드시 daemon 모드로 실행해야함
+#             - name: DB_MES_URL
+#               value: "whaleshark-mes-altibase-svc"
+#             - name: DB_MES_PORT
+#               value: "20300"
+#             - name: DB_PSVR_URL
+#               value: "whaleshark-mes-altibase-svc"
+#             - name: DB_PSVR_PORT
+#               value: "20300"
+#           ports: # 컨테이너 내부에서 사용하는 포트 명시
+#             - name: http  
+#               protocol: TCP
+#               containerPort: 8080
+#           livenessProbe: 
+#             httpGet:
+#               path: /health_check
+#               port: 8080
+#             initialDelaySeconds: 60
+#             periodSeconds: 30
+#           readinessProbe: 
+#             httpGet:
+#               path: /health_check
+#               port: 8080
+#             initialDelaySeconds: 30
+#             periodSeconds: 30
+#           volumeMounts: # 영구 저장할 볼륨 (디렉토리) 설정
+#             - name: log-volume # 위에서 명시한 볼륨명 지정
+#               mountPath: /usr/local/tomcat/logs # 컨테이너 내부 폴더위치
+      
+# ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka-web # 서비스 이름
+spec:
+  selector:
+    app: eureka # 연결할 Deployment의 이름
+  type: LoadBalancer # 서비스 유형 LoadBalancer는 172.17.250.100 ~ 172.17.250.150 중에서 자동 할당하도록 설정되어있음
+  ports:
+  - name: web
+    port: 9000 # Pod 내부에서 사용하는 포트
+    protocol: TCP

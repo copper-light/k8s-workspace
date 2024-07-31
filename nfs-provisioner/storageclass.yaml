@@ -1,0 +1,22 @@
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    meta.helm.sh/release-name: nfs-subdir-external-provisioner
+    meta.helm.sh/release-namespace: nfs-storage
+  creationTimestamp: "2022-07-27T01:46:07Z"
+  labels:
+    app: nfs-subdir-external-provisioner
+    app.kubernetes.io/managed-by: Helm
+    chart: nfs-subdir-external-provisioner-4.0.16
+    heritage: Helm
+    release: nfs-subdir-external-provisioner
+  name: nfs
+  resourceVersion: "258559"
+  uid: 05b61c91-2c6e-4cd8-a01c-ff90e4b82a3f
+parameters:
+  archiveOnDelete: "true"
+provisioner: cluster.local/nfs-subdir-external-provisioner
+reclaimPolicy: Delete
+volumeBindingMode: Immediate

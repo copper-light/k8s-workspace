@@ -1,0 +1,109 @@
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gitlab-postgresql
+  labels:
+    type: postgresql
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    name: data-gitlab-postgresql-0
+    namespace: gitlab
+#  storageClassName: gitlab
+  nfs:
+    server: kube-nfs
+    path: "/home/nfs/gitlab/postgresql"
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gitlab-minio
+  labels:
+    type: minio
+spec:
+  claimRef:
+    name: gitlab-minio
+    namespace: gitlab
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+#  storageClassName: gitlab
+  nfs:
+    server: kube-nfs
+    path: "/home/nfs/gitlab/minio"
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gitlab-prometheus
+  labels:
+    type: prometheus
+spec:
+  claimRef:
+    name: gitlab-prometheus-server
+    namespace: gitlab
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+#  storageClassName: gitlab
+  nfs:
+    server: kube-nfs
+    path: "/home/nfs/gitlab/prometheus"
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gitlab-redis
+  labels:
+    type: redis
+spec:
+  claimRef:
+    name: redis-data-gitlab-redis-master-0
+    namespace: gitlab
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+#  storageClassName: gitlab
+  nfs:
+    server: kube-nfs
+    path: "/home/nfs/gitlab/redis"
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gitlab-gitaly
+  labels:
+    type: gitaly
+spec:
+  claimRef:
+    name: repo-data-gitlab-gitaly-0
+    namespace: gitlab
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+#	  storageClassName: gitlab
+  nfs:
+    server: kube-nfs
+    path: "/home/nfs/gitlab/gitaly"

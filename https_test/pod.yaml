@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web
+  labels:
+    app: web
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+    - containerPort: 443
+    volumeMounts:
+    - mountPath: "/home/ssl"
+      name: volume-secret
+      readOnly: true
+  volumes:
+  - name: volume-secret
+    secret:
+      secretName: httpstls
+          
+          
+

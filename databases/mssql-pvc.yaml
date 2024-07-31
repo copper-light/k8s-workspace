@@ -1,0 +1,12 @@
+--- 
+apiVersion: v1
+kind: PersistentVolumeClaim # 영구 스토리지 생성을 요청하는 객체
+metadata:
+  name: mssql-pvc # PVC 이름
+spec:
+  storageClassName: nfs # ReclaimPolicy : delete 로 설정되어 있으므로 pvc 삭제시 물리스토리지의 데이터도 삭제됨
+  accessModes:
+    - ReadWriteOnce # 스토리지 액세스 모드
+  resources:
+    requests:
+      storage: 100Gi # 용량은 지정되어있지만 실제로 10G 이상 사용 가능

@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "mariadb10.fullname" . }}
+  labels:
+    {{- include "mariadb10.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "mariadb10.fullname" . }}
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "mariadb10.fullname" . }} # 배포 이름
+  template:
+    metadata:
+      labels:
+        app: {{ include "mariadb10.fullname" . }} # 배포 이름
+    spec:
+      #affinity:
+      #  nodeAffinity:
+      #    requiredDuringSchedulingIgnoredDuringExecution:
+      #      nodeSelectorTerms:
+      #      - matchExpressions:
+      #        - key: kubernetes.io/hostname # worker03~06에만 raid가 설정되어있으므로 해당 노드으로 지정
+      #          operator: In
+      #          values:
+      #          - worker03
+      securityContext:
+        fsGroup: 1000 
+      volumes:
+        - name: data-volume # 볼륨명
+          persistentVolumeClaim:
+            claimName: {{ include "mariadb10.fullname" . }}-pvc
+      containers:
+        - name: mariadb  # 컨테이너 이름
+          image: "docker.io/mariadb:10.5" # 이미지명 
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MARIADB_ROOT_PASSWORD 
+              value: {{ .Values.database.rootPassword | quote }} # "1234!" # 패스워드 직접 명시도 가능
+
+            # 패스워드 보안을 위하여 Secret 객체를 활용
+            # 쿠버네티스에서의 패스워드(Secret) 생성 명령어
+            # kubectl create secret generic database-secret -n dev --from-literal=root-password='비밀번호'
+            # - name: MARIADB_ROOT_PASSWORD # 패스워드 보안을 위하여 Secret 객체를 활용
+            #   valueFrom:
+            #     secretKeyRef: # secret 리소스인 database-secret에 저장된 root-password의 값을 불러옴
+            #       name: database-secret
+            #       key: root-password
+
+          ports: # 컨테이너 내부에서 사용하는 포트 명시
+              - name: db-port
+                containerPort: 3306
+                protocol: TCP
+          volumeMounts: # 영구 저장할 볼륨 (디렉토리) 설정
+            - name: data-volume # 위에서 명시한 볼륨명 지정
+              mountPath: /var/lib/mysql 
+            # - name: config-file # 설정이 필요한 경우
+            #   mountPath: /etc/mysql/conf.d # 실제로 사용시 configmap 으로 만들어서 mount할 것

@@ -1,0 +1,78 @@
+{
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+        "annotations": {
+            "cattle.io/status": "{\"Conditions\":[{\"Type\":\"ResourceQuotaInit\",\"Status\":\"True\",\"Message\":\"\",\"LastUpdateTime\":\"2024-01-15T07:13:53Z\"},{\"Type\":\"InitialRolesPopulated\",\"Status\":\"True\",\"Message\":\"\",\"LastUpdateTime\":\"2024-01-15T07:13:58Z\"}]}",
+            "field.cattle.io/projectId": "local:p-vv482",
+            "lifecycle.cattle.io/create.namespace-auth": "true",
+            "management.cattle.io/no-default-sa-token": "true"
+        },
+        "creationTimestamp": "2024-01-15T07:13:52Z",
+        "deletionTimestamp": "2024-01-15T08:00:38Z",
+        "labels": {
+            "field.cattle.io/projectId": "p-vv482",
+            "kubernetes.io/metadata.name": "calico-system",
+            "name": "calico-system",
+            "pod-security.kubernetes.io/enforce": "privileged",
+            "pod-security.kubernetes.io/enforce-version": "latest"
+        },
+        "name": "calico-system",
+        "ownerReferences": [
+            {
+                "apiVersion": "operator.tigera.io/v1",
+                "blockOwnerDeletion": true,
+                "controller": true,
+                "kind": "Installation",
+                "name": "default",
+                "uid": "ec78f007-29aa-4eeb-abbc-b7a016c67de1"
+            }
+        ],
+        "resourceVersion": "232113153",
+        "uid": "76db25c9-44ec-4445-a28d-54dde4016c97"
+    },
+    "spec": {
+        "finalizers": [
+        ]
+    },
+    "status": {
+        "conditions": [
+            {
+                "lastTransitionTime": "2024-01-17T09:24:29Z",
+                "message": "All resources successfully discovered",
+                "reason": "ResourcesDiscovered",
+                "status": "False",
+                "type": "NamespaceDeletionDiscoveryFailure"
+            },
+            {
+                "lastTransitionTime": "2024-01-15T08:00:52Z",
+                "message": "All legacy kube types successfully parsed",
+                "reason": "ParsedGroupVersions",
+                "status": "False",
+                "type": "NamespaceDeletionGroupVersionParsingFailure"
+            },
+            {
+                "lastTransitionTime": "2024-01-15T08:00:52Z",
+                "message": "Failed to delete all resource types, 1 remaining: Internal error occurred: error resolving resource",
+                "reason": "ContentDeletionFailed",
+                "status": "True",
+                "type": "NamespaceDeletionContentFailure"
+            },
+            {
+                "lastTransitionTime": "2024-01-15T12:03:32Z",
+                "message": "All content successfully removed",
+                "reason": "ContentRemoved",
+                "status": "False",
+                "type": "NamespaceContentRemaining"
+            },
+            {
+                "lastTransitionTime": "2024-01-15T09:57:25Z",
+                "message": "All content-preserving finalizers finished",
+                "reason": "ContentHasNoFinalizers",
+                "status": "False",
+                "type": "NamespaceFinalizersRemaining"
+            }
+        ],
+        "phase": "Terminating"
+    }
+}

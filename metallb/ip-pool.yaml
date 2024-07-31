@@ -1,0 +1,22 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: internal-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  # On the other hand, the sandbox environment uses private IP space,
+  # which is free and plentiful. We give this address pool a ton of IPs,
+  # so that developers can spin up as many sandboxes as they need.
+  - 172.17.250.100-172.17.250.150
+
+---
+
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: internal-pool-l2
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - internal-pool

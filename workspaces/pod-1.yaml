@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: handh-pod-1
+spec:
+  volumes:
+    - name: test-volume
+      persistentVolumeClaim:
+        claimName: handh-pvc-1
+  containers:
+    - name: task-pod
+      image: ubuntu
+      command: ["sleep", "infinity"]
+      volumeMounts:
+        - mountPath: "/home/volume"
+          name: test-volume

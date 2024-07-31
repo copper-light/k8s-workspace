@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    field.cattle.io/publicEndpoints: '[{"addresses":["172.17.250.100"],"port":80,"protocol":"HTTP","serviceName":"druid-hadoop:druid-tiny-cluster-routers","ingressName":"druid-hadoop:druid-ingress","hostname":"druid.hdfs.datacentric.io","path":"/","allNodes":false}]'
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"field.cattle.io/publicEndpoints":"[{\"addresses\":[\"172.17.250.100\"],\"port\":80,\"protocol\":\"HTTP\",\"serviceName\":\"druid:druid-tiny-cluster-routers\",\"ingressName\":\"druid:handh-ingress\",\"hostname\":\"druid.datacentric.io\",\"path\":\"/\",\"allNodes\":false}]","nginx.ingress.kubernetes.io/rewrite-target":"/"},"creationTimestamp":"2021-08-12T03:49:41Z","generation":5,"name":"druid-ingress","namespace":"druid-hadoop","resourceVersion":"531225895","selfLink":"/apis/networking.k8s.io/v1/namespaces/druid/ingresses/handh-ingress","uid":"2a5fb982-06c1-4851-8fde-51f6ed516f4f"},"spec":{"rules":[{"host":"druid.hdfs.datacentric.io","http":{"paths":[{"backend":{"service":{"name":"druid-tiny-cluster-routers","port":{"number":8088}}},"path":"/","pathType":"Prefix"}]}}]},"status":{"loadBalancer":{"ingress":[{"ip":"172.17.250.100"}]}}}
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  creationTimestamp: "2022-05-03T09:04:35Z"
+  generation: 1
+  name: kafka-ingress
+  namespace: kafka
+  resourceVersion: "531443286"
+  selfLink: /apis/networking.k8s.io/v1/namespaces/druid-hadoop/ingresses/druid-ingress
+  uid: 6bfb5eca-de60-4f18-a5b9-de2edf6166bb
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: kafka.datacentric.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: kafka
+            port:
+              number: 9092
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+    - ip: 172.17.250.100

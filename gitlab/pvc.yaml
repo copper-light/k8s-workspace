@@ -1,0 +1,182 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    meta.helm.sh/release-name: gitlab
+    meta.helm.sh/release-namespace: gitlab
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: "2022-08-12T01:15:16Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app: minio
+    app.kubernetes.io/managed-by: Helm
+    chart: minio-0.4.3
+    heritage: Helm
+    release: gitlab
+  name: gitlab-minio
+  namespace: gitlab
+  resourceVersion: "5727326"
+  uid: ef951ef0-e496-47f2-ab6b-85965d15a82e
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  selector:
+    matchLabels:
+      type: minio
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 100Gi
+  phase: Bound
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: "2022-08-12T01:15:16Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app: gitaly
+    release: gitlab
+  name: repo-data-gitlab-gitaly-0
+  namespace: gitlab
+  resourceVersion: "5727513"
+  uid: 68f2dc06-378c-461e-977a-edd63fe51f89
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  volumeMode: Filesystem
+  selector:
+    matchLabels:
+      type: gitaly 
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 100Gi
+  phase: Bound
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    meta.helm.sh/release-name: gitlab
+    meta.helm.sh/release-namespace: gitlab
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: "2022-08-12T01:15:16Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app: prometheus
+    app.kubernetes.io/managed-by: Helm
+    chart: prometheus-11.16.9
+    component: server
+    heritage: Helm
+    release: gitlab
+  name: gitlab-prometheus-server
+  namespace: gitlab
+  resourceVersion: "5727302"
+  uid: 2f1091df-ed7a-4be1-b37d-e701fd052df7
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  volumeMode: Filesystem
+  selector:
+    matchLabels:
+      type: prometheus
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 100Gi
+  phase: Bound
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: "2022-08-12T03:50:46Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app: postgresql
+    release: gitlab
+    role: master
+  name: data-gitlab-postgresql-0
+  namespace: gitlab
+  resourceVersion: "5766234"
+  uid: 8ba12bac-861c-4fd3-90dc-b3004d89f6c7
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  volumeMode: Filesystem
+  volumeName: gitlab-postgresql
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 100Gi
+  phase: Bound
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: "2022-08-12T03:50:43Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app: redis
+    component: master
+    heritage: Helm
+    release: gitlab
+    role: master
+  name: redis-data-gitlab-redis-master-0
+  namespace: gitlab
+  resourceVersion: "5766230"
+  uid: 096f27a9-98b4-439a-bc27-189d374a924c
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  volumeMode: Filesystem
+  volumeName: gitlab-redis
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 100Gi
+  phase: Bound

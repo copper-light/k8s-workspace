@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mongodb4.fullname" . }}-svc # 서비스 이름
+  annotations:
+   metallb.universe.tf/address-pool: "internal-cloud-pool" 
+#    metallb.universe.tf/loadBalancerIPs: "172.17.250.101"
+#    metallb.universe.tf/allow-shared-ip: "key-to-share-172.17.250.101"
+spec:
+  selector:
+    app: {{ include "mongodb4.fullname" . }} # 연결할 Deployment의 이름
+  type: LoadBalancer # 서비스 유형 LoadBalancer는 172.17.250.100 ~ 172.17.250.150 중에서 자동 할당하도록 설정되어있음
+  ports:
+  - name: service-port
+    port: 27017 # Pod 내부에서 사용하는 포트. 실제 할당된 아이피는 $(kubectl get service -n dev) 로 조회
+    protocol: TCP
+  #externalIPs: # 필요한 경우 아이피 지정 가능 (단, 로드밸런서의 아이피 설정 범위에 한해서)
+  #  - 172.17.250.101i
+  loadBalancerIP: {{ .Values.service.loadBalancerIP }}

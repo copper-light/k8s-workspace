@@ -1,0 +1,8 @@
+# Default values for hello.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+database:
+  rootPassword : "-------"
+
+service:
+  loadBalancerIP: 172.17.250.117

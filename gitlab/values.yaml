@@ -1,0 +1,23 @@
+global:
+  edition: ee # 라이센스를 ce로 설정
+  hosts:
+    domain: gitlab.dataignite.io # ingress 도메인 설정
+    externalIP: 172.17.250.100 # nginx-ingress loadbalacner IP
+    gitlab:
+      name: gitlab.dataignite.io
+      https: true
+    registry:
+      name: registry.gitlab.dataignite.io
+      https: true
+    minio:
+      name: minio.gitlab.dataignite.io
+      https: true
+  ingress:
+    configureCertmanager: false
+    class: "nginx"
+    tls:
+      enabled: true
+certmanager: 
+  install: false
+nginx-ingress: 
+  enabled: false
